@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"errors"
-	"fmt"
 	"time"
 
 	"gopkg.in/mgo.v2/bson"
@@ -24,7 +23,6 @@ func CreateSession(u models.UserDB) (models.UserSession, error) {
 		UserID:    u.ID,
 	}
 	err = dbSession.Insert(us)
-	fmt.Println(err)
 	if err != nil {
 		return models.UserSession{}, err
 	}
