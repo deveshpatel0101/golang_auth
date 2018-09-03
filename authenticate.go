@@ -3,8 +3,8 @@ package main
 import (
 	"net/http"
 
-	"./controllers"
-	"./models"
+	"github.com/golang_workspace/authentication/controllers"
+	"github.com/golang_workspace/authentication/models"
 )
 
 func authenticate(req *http.Request) (models.UserDB, error) {

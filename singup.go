@@ -3,10 +3,10 @@ package main
 import (
 	"net/http"
 
-	"./controllers"
-	"./flash"
-	"./models"
 	"github.com/asaskevich/govalidator"
+	"github.com/golang_workspace/authentication/controllers"
+	"github.com/golang_workspace/authentication/flash"
+	"github.com/golang_workspace/authentication/models"
 	"github.com/julienschmidt/httprouter"
 )
 

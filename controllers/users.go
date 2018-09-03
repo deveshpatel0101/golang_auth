@@ -8,7 +8,7 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"../models"
+	"github.com/golang_workspace/authentication/models"
 	"gopkg.in/mgo.v2"
 )
 

@@ -7,8 +7,8 @@ import (
 
 	"gopkg.in/mgo.v2/bson"
 
-	"../flash"
-	"../models"
+	"github.com/golang_workspace/authentication/flash"
+	"github.com/golang_workspace/authentication/models"
 	"github.com/satori/go.uuid"
 )
 

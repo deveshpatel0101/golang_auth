@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"../models"
+	"github.com/golang_workspace/authentication/models"
 	"gopkg.in/mgo.v2/bson"
 )
 

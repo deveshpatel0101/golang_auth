@@ -4,7 +4,7 @@ import (
 	"html/template"
 	"net/http"
 
-	"./controllers"
+	"github.com/golang_workspace/authentication/controllers"
 	"github.com/julienschmidt/httprouter"
 )
 
