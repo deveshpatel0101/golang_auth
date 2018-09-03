@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Index</title>
+</head>
+
+<body>
+    <ul>
+        <li><a href="/">Index</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/signup">Signup</a></li>
+        <li><a href="/admin">Admin</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+
+    <form method="post">
+        <input type="text" name="fname" placeholder="First Name"><br>
+        <input type="text" name="lname" placeholder="Last Name"><br>
+        <input type="email" name="email" placeholder="example@gmail.com"><br>
+        <input type="password" name="password01" placeholder="Password"><br>
+        <input type="password" name="password02" placeholder="Confirm Password"><br>
+        <button type="submit">Signup</button>
+    </form>
+
+    {{if .SuccessMessage}}
+    <p><strong>Success: </strong>{{.SuccessMessage}}</p>
+    {{end}}
+
+    {{if .ErrorMessage}}
+    <p><strong>Error: </strong>{{.ErrorMessage}}</p>
+    {{end}}
+</body>
+
+</html>

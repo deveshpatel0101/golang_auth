@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Index</title>
+</head>
+
+<body>
+    <ul>
+        <li><a href="/">Index</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/signup">Signup</a></li>
+        <li><a href="/admin">Admin</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+    {{if .Fname}}
+    <ul>
+        <li><strong>First Name: </strong>{{.Fname}}</li>
+        <li><strong>Last Name: </strong>{{.Lname}}</li>
+        <li><strong>Email: </strong>{{.Email}}</li>
+        <li><strong>Password: </strong>{{.Password}}</li>
+    </ul>
+    {{end}}
+
+</body>
+
+</html>
