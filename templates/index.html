@@ -11,10 +11,14 @@
 <body>
     <ul>
         <li><a href="/">Index</a></li>
+        {{if eq .LoggedIn false}}
         <li><a href="/login">Login</a></li>
         <li><a href="/signup">Signup</a></li>
+        {{end}}
         <li><a href="/admin">Admin</a></li>
+        {{if eq .LoggedIn true}}
         <li><a href="/logout">Logout</a></li>
+        {{end}}
     </ul>
 </body>
 

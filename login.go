@@ -48,11 +48,11 @@ func pstLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	user, err := controllers.ValidateUser(models.UserDB{Email: userLogin.Email, Password: userLogin.Password})
 	if err != nil {
 		if err.Error() == "not found" {
-			alerts.ErrorMessage = "Email or Password is wrong"
+			alerts.ErrorMessage = "Email or Password is wrong."
 			tpl.ExecuteTemplate(w, "login.html", alerts)
 			return
 		} else if err.Error() == "wrong password" {
-			alerts.ErrorMessage = "Email or Password is wrong"
+			alerts.ErrorMessage = "Email or Password is wrong."
 			tpl.ExecuteTemplate(w, "login.html", alerts)
 			return
 		}
@@ -60,7 +60,7 @@ func pstLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	us, err := controllers.CreateSession(user)
 	if err != nil {
 		alerts.ErrorMessage = err.Error()
-		tpl.ExecuteTemplate(w, "index.html", alerts)
+		tpl.ExecuteTemplate(w, "login.html", alerts)
 		return
 	}
 	http.SetCookie(w, &http.Cookie{

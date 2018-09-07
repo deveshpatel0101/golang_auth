@@ -23,6 +23,7 @@ type UserAlerts struct {
 	Password       []byte
 	SuccessMessage string
 	ErrorMessage   string
+	LoggedIn       bool
 }
 
 // UserSession to store session in db
