@@ -20,10 +20,6 @@ type UserDB struct {
 
 // UserAlerts to alert user for wrong field value inputs
 type UserAlerts struct {
-	Fname          string
-	Lname          string
-	Email          string
-	Password       []byte
 	SuccessMessage string
 	ErrorMessage   string
 	LoggedIn       bool

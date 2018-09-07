@@ -15,7 +15,6 @@ var tpl *template.Template
 func init() {
 	tpl = template.Must(template.ParseGlob("templates/*.html"))
 	controllers.Connect()
-	go controllers.RemoveSessions()
 }
 
 func main() {
