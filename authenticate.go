@@ -16,7 +16,7 @@ func authenticate(req *http.Request) (models.UserDB, error) {
 	if err != nil {
 		return models.UserDB{}, err
 	}
-	ui, err := controllers.GetUserInfo(userID.Hex())
+	ui, err := controllers.GetUserByID(userID.Hex())
 	if err != nil {
 		return models.UserDB{}, err
 	}

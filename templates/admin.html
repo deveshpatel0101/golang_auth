@@ -16,10 +16,30 @@
     </ul>
     {{if .Fname}}
     <ul>
+        {{if .ID}}
+        <li><strong>ID: </strong>{{.ID}}</li>
+        {{end}}
+        {{if .Fname}}
         <li><strong>First Name: </strong>{{.Fname}}</li>
+        {{end}}
+        {{if .Lname}}
         <li><strong>Last Name: </strong>{{.Lname}}</li>
+        {{end}}
+        {{if .Email}}
         <li><strong>Email: </strong>{{.Email}}</li>
+        {{end}}
+        {{if .Password}}
         <li><strong>Password: </strong>{{.Password}}</li>
+        {{end}}
+        {{if .Picture}}
+        <li><strong>Picture: </strong>{{.Picture}}</li>
+        {{end}}
+        {{if .Picture}}
+        <li><strong>User Type: </strong>{{.UserType}}</li>
+        {{end}}
+        {{if .Picture}}
+        <li><strong>Google ID: </strong>{{.GoogleID}}</li>
+        {{end}}
     </ul>
     {{end}}
 

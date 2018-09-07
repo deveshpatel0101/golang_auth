@@ -27,5 +27,7 @@ func main() {
 	mux.POST("/signup", pstSignup)
 	mux.GET("/logout", gtLogout)
 	mux.GET("/admin", gtAdmin)
+	mux.GET("/google/login", google)
+	mux.GET("/google/callback", callback)
 	http.ListenAndServe(":8000", mux)
 }

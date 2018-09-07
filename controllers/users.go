@@ -34,11 +34,13 @@ func CreateUser(u models.UserDB) error {
 	if err == nil {
 		return errors.New("User already exists")
 	}
-	hshPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.MinCost)
-	if err != nil {
-		return err
+	if u.UserType == "local" {
+		hshPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.MinCost)
+		if err != nil {
+			return err
+		}
+		u.Password = string(hshPass)
 	}
-	u.Password = string(hshPass)
 	u.ID = bson.NewObjectId()
 	err = dbUser.Insert(u)
 	if err != nil {
@@ -61,11 +63,21 @@ func ValidateUser(u models.UserDB) (models.UserDB, error) {
 	return result, nil
 }
 
-// GetUserInfo is a function returns all information
+// GetUserByID is a function returns all information
 // about user
-func GetUserInfo(u string) (models.UserDB, error) {
+func GetUserByID(u string) (models.UserDB, error) {
 	ui := models.UserDB{}
 	err := dbUser.FindId(bson.ObjectIdHex(u)).One(&ui)
+	if err != nil {
+		return models.UserDB{}, err
+	}
+	return ui, nil
+}
+
+// GetUserByEmail will return data retrieved from db
+func GetUserByEmail(u string) (models.UserDB, error) {
+	ui := models.UserDB{}
+	err := dbUser.Find(struct{ Email string }{Email: u}).One(&ui)
 	if err != nil {
 		return models.UserDB{}, err
 	}

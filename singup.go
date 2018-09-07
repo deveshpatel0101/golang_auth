@@ -79,5 +79,6 @@ func convert(s singup) models.UserDB {
 		Lname:    s.Lname,
 		Email:    s.Email,
 		Password: s.Password,
+		UserType: "local",
 	}
 }
