@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 
 	"github.com/golang_workspace/authentication/controllers"
 	"github.com/julienschmidt/httprouter"
@@ -18,6 +20,10 @@ func init() {
 }
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000"
+	}
 	mux := httprouter.New()
 	mux.GET("/", gtIndex)
 	mux.GET("/login", gtLogin)
@@ -28,5 +34,6 @@ func main() {
 	mux.GET("/admin", gtAdmin)
 	mux.GET("/google/login", google)
 	mux.GET("/google/callback", callback)
-	http.ListenAndServe(":8000", mux)
+	fmt.Println("Server started on port", port)
+	http.ListenAndServe(":"+port, mux)
 }
