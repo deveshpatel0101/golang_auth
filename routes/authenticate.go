@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
 	"net/http"
@@ -7,7 +7,8 @@ import (
 	"github.com/golang_workspace/authentication/models"
 )
 
-func authenticate(req *http.Request) (models.UserDB, error) {
+// Authenticate will check if user is logged in or not
+func Authenticate(req *http.Request) (models.UserDB, error) {
 	c, err := req.Cookie("sid")
 	if err != nil {
 		return models.UserDB{}, err

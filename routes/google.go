@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
 	"encoding/json"
@@ -41,7 +41,8 @@ func init() {
 	}
 }
 
-func google(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+// Google will allow users to login using google
+func Google(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	uuid, err := uuid.NewV4()
 	if err != nil {
 		oauthStateString = "something"
@@ -51,7 +52,8 @@ func google(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	http.Redirect(w, req, url, http.StatusTemporaryRedirect)
 }
 
-func callback(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+// Callback route after google redirect
+func Callback(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	content, err := getGoogleInfo(req.FormValue("state"), req.FormValue("code"))
 	if err != nil {
 		http.Redirect(w, req, "/login", http.StatusInternalServerError)

@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
 	"net/http"
@@ -6,8 +6,9 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func gtAdmin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
-	ui, err := authenticate(req)
+// GtAdmin will listen to GET on admin route
+func GtAdmin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+	ui, err := Authenticate(req)
 	if err != nil {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return

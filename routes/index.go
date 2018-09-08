@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
 	"net/http"
@@ -8,9 +8,10 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func gtIndex(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+// GtIndex will to GET on / route
+func GtIndex(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	alerts := models.UserAlerts{}
-	_, err := authenticate(req)
+	_, err := Authenticate(req)
 	if err != nil {
 		alerts.LoggedIn = false
 		tpl.ExecuteTemplate(w, "index.html", alerts)

@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
 	"net/http"
@@ -6,7 +6,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func gtLogout(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+// GtLogout will listen to GET on logout route
+func GtLogout(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	ck := http.Cookie{
 		Name:     "sid",
 		MaxAge:   -1,

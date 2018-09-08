@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
 	"net/http"
@@ -16,7 +16,8 @@ type login struct {
 	Password string
 }
 
-func gtLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+// GtLogin will listen to GET on login route
+func GtLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	val, _ := flash.GetFlash(w, req, "success")
 	if string(val) != "" {
 		alerts := models.UserAlerts{
@@ -25,7 +26,7 @@ func gtLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 		tpl.ExecuteTemplate(w, "login.html", alerts)
 		return
 	}
-	_, err := authenticate(req)
+	_, err := Authenticate(req)
 	if err == nil {
 		http.Redirect(w, req, "/admin", http.StatusSeeOther)
 		return
@@ -33,7 +34,8 @@ func gtLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	tpl.ExecuteTemplate(w, "login.html", nil)
 }
 
-func pstLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+// PstLogin will listen to POST on login route
+func PstLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	userLogin := login{
 		Email:    req.FormValue("email"),
 		Password: req.FormValue("password"),

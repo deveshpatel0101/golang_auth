@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
 	"net/http"
@@ -18,8 +18,9 @@ type singup struct {
 	CPassword string
 }
 
-func gtSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
-	_, err := authenticate(req)
+// GtSignup will listen to GET on signup route
+func GtSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+	_, err := Authenticate(req)
 	if err == nil {
 		http.Redirect(w, req, "/admin", http.StatusSeeOther)
 		return
@@ -27,7 +28,8 @@ func gtSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	tpl.ExecuteTemplate(w, "signup.html", nil)
 }
 
-func pstSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+// PstSignup will listen to POST on signup route
+func PstSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	userSingup := singup{
 		Fname:     req.FormValue("fname"),
 		Lname:     req.FormValue("lname"),
