@@ -46,8 +46,9 @@ func Google(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	uuid, err := uuid.NewV4()
 	if err != nil {
 		oauthStateString = "something"
+	} else {
+		oauthStateString = uuid.String()
 	}
-	oauthStateString = uuid.String()
 	url := googleOauthConfig.AuthCodeURL(oauthStateString)
 	http.Redirect(w, req, url, http.StatusTemporaryRedirect)
 }
@@ -86,7 +87,6 @@ func Callback(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	// Create session
 	us, err := controllers.CreateSession(fu)
 	if err != nil {
-		fmt.Println("Entered")
 		http.Redirect(w, req, "/login", http.StatusInternalServerError)
 		return
 	}

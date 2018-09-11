@@ -35,7 +35,7 @@ func CreateUser(u models.UserDB) error {
 		return errors.New("User already exists")
 	}
 	if u.UserType == "local" {
-		hshPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.MinCost)
+		hshPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 		if err != nil {
 			return err
 		}
@@ -54,11 +54,11 @@ func ValidateUser(u models.UserDB) (models.UserDB, error) {
 	result := models.UserDB{}
 	err := dbUser.Find(struct{ Email string }{Email: u.Email}).One(&result)
 	if err != nil {
-		return models.UserDB{}, err
+		return models.UserDB{}, errors.New("email or password is wrong")
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(result.Password), []byte(u.Password))
 	if err != nil {
-		return models.UserDB{}, errors.New("wrong password")
+		return models.UserDB{}, errors.New("email or password is wrong")
 	}
 	return result, nil
 }

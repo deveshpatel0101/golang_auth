@@ -10,14 +10,6 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-type singup struct {
-	Fname     string
-	Lname     string
-	Email     string
-	Password  string
-	CPassword string
-}
-
 // GtSignup will listen to GET on signup route
 func GtSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	_, err := Authenticate(req)
@@ -30,14 +22,14 @@ func GtSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 
 // PstSignup will listen to POST on signup route
 func PstSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
-	userSingup := singup{
-		Fname:     req.FormValue("fname"),
-		Lname:     req.FormValue("lname"),
-		Email:     req.FormValue("email"),
-		Password:  req.FormValue("password01"),
-		CPassword: req.FormValue("password02"),
+	userSingup := models.UserDB{
+		Fname:    req.FormValue("fname"),
+		Lname:    req.FormValue("lname"),
+		Email:    req.FormValue("email"),
+		Password: req.FormValue("password01"),
+		UserType: "local",
 	}
-	str := checkSignup(userSingup)
+	str := checkSignup(req)
 
 	alerts := models.UserAlerts{}
 	if str != "" {
@@ -45,7 +37,7 @@ func PstSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 		tpl.ExecuteTemplate(w, "signup.html", alerts)
 		return
 	}
-	err := controllers.CreateUser(convert(userSingup))
+	err := controllers.CreateUser(userSingup)
 	if err != nil {
 		alerts.ErrorMessage = err.Error()
 		tpl.ExecuteTemplate(w, "signup.html", alerts)
@@ -55,32 +47,22 @@ func PstSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	http.Redirect(w, req, "/login", http.StatusSeeOther)
 }
 
-func checkSignup(u singup) string {
-	if len(u.Fname) < 3 {
+func checkSignup(req *http.Request) string {
+	if len(req.FormValue("fname")) < 3 {
 		return "First name should be atleast three characters long."
-	} else if len(u.Lname) < 3 {
+	} else if len(req.FormValue("lname")) < 3 {
 		return "Last name should be atleast three characters long."
-	} else if !govalidator.IsEmail(u.Email) {
+	} else if !govalidator.IsEmail(req.FormValue("email")) {
 		return "Email is invalid."
-	} else if u.Password == "" || u.CPassword == "" {
+	} else if req.FormValue("password01") == "" || req.FormValue("password02") == "" {
 		return "Both password fields are required."
-	} else if len(u.Password) < 6 {
+	} else if len(req.FormValue("password01")) < 6 {
 		return "Password should be atleast 6 characters long."
-	} else if u.Password != u.CPassword {
+	} else if req.FormValue("password01") != req.FormValue("password02") {
 		return "Both passwords should match."
 	}
 	return ""
 	// Todo: else if !govalidator.Matches(u.Password, passRegExp) {
 	// 	return "Password should be atleast 6 characters long and should include atleast one uppercase letter or numeric character."
 	// }
-}
-
-func convert(s singup) models.UserDB {
-	return models.UserDB{
-		Fname:    s.Fname,
-		Lname:    s.Lname,
-		Email:    s.Email,
-		Password: s.Password,
-		UserType: "local",
-	}
 }

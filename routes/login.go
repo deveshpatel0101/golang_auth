@@ -3,18 +3,12 @@ package routes
 import (
 	"net/http"
 
-	"github.com/asaskevich/govalidator"
 	"github.com/golang_workspace/authentication/controllers"
 	"github.com/golang_workspace/authentication/flash"
 	"github.com/golang_workspace/authentication/models"
 
 	"github.com/julienschmidt/httprouter"
 )
-
-type login struct {
-	Email    string
-	Password string
-}
 
 // GtLogin will listen to GET on login route
 func GtLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
@@ -36,28 +30,22 @@ func GtLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 
 // PstLogin will listen to POST on login route
 func PstLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
-	userLogin := login{
+	str := checkLogin(req)
+	uc := models.UserDB{
 		Email:    req.FormValue("email"),
 		Password: req.FormValue("password"),
 	}
-	str := checkLogin(userLogin)
 	alerts := models.UserAlerts{}
 	if str != "" {
 		alerts.ErrorMessage = str
 		tpl.ExecuteTemplate(w, "login.html", alerts)
 		return
 	}
-	user, err := controllers.ValidateUser(models.UserDB{Email: userLogin.Email, Password: userLogin.Password})
+	user, err := controllers.ValidateUser(uc)
 	if err != nil {
-		if err.Error() == "not found" {
-			alerts.ErrorMessage = "Email or Password is wrong."
-			tpl.ExecuteTemplate(w, "login.html", alerts)
-			return
-		} else if err.Error() == "wrong password" {
-			alerts.ErrorMessage = "Email or Password is wrong."
-			tpl.ExecuteTemplate(w, "login.html", alerts)
-			return
-		}
+		alerts.ErrorMessage = "Email or Password is wrong."
+		tpl.ExecuteTemplate(w, "login.html", alerts)
+		return
 	}
 	us, err := controllers.CreateSession(user)
 	if err != nil {
@@ -73,10 +61,10 @@ func PstLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	http.Redirect(w, req, "/admin", http.StatusSeeOther)
 }
 
-func checkLogin(l login) string {
-	if !govalidator.IsEmail(l.Email) {
-		return "Invalid email."
-	} else if l.Password == "" {
+func checkLogin(req *http.Request) string {
+	if req.FormValue("email") == "" {
+		return "Email is required."
+	} else if req.FormValue("password") == "" {
 		return "Password is required."
 	}
 	return ""
