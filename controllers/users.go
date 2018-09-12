@@ -12,7 +12,7 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
-var dbUser, dbSession *mgo.Collection
+var dbUser, dbSession, dbReset *mgo.Collection
 var s *mgo.Session
 
 // Connect establishes connection to db
@@ -25,6 +25,7 @@ func Connect() {
 	fmt.Println("Connected")
 	dbUser = s.DB("go").C("first")
 	dbSession = s.DB("go").C("session")
+	dbReset = s.DB("go").C("reset")
 }
 
 // CreateUser is a function

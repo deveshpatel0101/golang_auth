@@ -40,3 +40,10 @@ type GoogleUser struct {
 	Picture  string `json:"picture" bson:"picture"`
 	GoogleID string `json:"id" bson:"id"`
 }
+
+// UserReset for password reset
+type UserReset struct {
+	Email     string        `json:"email" bson:"email"`
+	ID        bson.ObjectId `json:"_id" bson:"_id"`
+	CreatedAt time.Time     `json:"createdAt" bson:"createdAt"`
+}

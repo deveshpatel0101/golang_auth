@@ -7,15 +7,22 @@
   <title>Forgot Password</title>
 </head>
 <body>
+
+  <ul>
+      <li><a href="/">Index</a></li>
+      <li><a href="/user/login">Login</a></li>
+      <li><a href="/user/signup">Signup</a></li>
+  </ul>
+    
   <form method="POST">
     <input type="email" name="email" placeholder="example@gmail.com">
-    <button type="submit">Submit</button>
-    {{if .ErrorMessage}}
+    <button type="submit">Reset Password</button>    
+  </form>
+  {{if .ErrorMessage}}
     <strong>Error: </strong>{{.ErrorMessage}}
     {{end}}
     {{if .SuccessMessage}}
     <strong>Success: </strong>{{.SuccessMessage}}
     {{end}}
-  </form>
 </body>
 </html>

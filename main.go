@@ -33,6 +33,8 @@ func main() {
 	mux.GET("/google/callback", routes.Callback)
 	mux.GET("/user/forgot", routes.GtForgot)
 	mux.POST("/user/forgot", routes.PstForgot)
+	mux.GET("/user/reset", routes.GtReset)
+	mux.POST("/user/reset", routes.PstReset)
 	fmt.Println("Server started on port", port)
 	http.ListenAndServe(":"+port, mux)
 }
