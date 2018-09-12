@@ -12,6 +12,7 @@ func GtLogout(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 		Name:     "sid",
 		MaxAge:   -1,
 		HttpOnly: true,
+		Path:     "/",
 	}
 	http.SetCookie(w, &ck)
 	http.Redirect(w, req, "/", http.StatusSeeOther)

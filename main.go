@@ -31,6 +31,8 @@ func main() {
 	mux.GET("/user/admin", routes.GtAdmin)
 	mux.GET("/google/login", routes.Google)
 	mux.GET("/google/callback", routes.Callback)
+	mux.GET("/user/forgot", routes.GtForgot)
+	mux.POST("/user/forgot", routes.PstForgot)
 	fmt.Println("Server started on port", port)
 	http.ListenAndServe(":"+port, mux)
 }

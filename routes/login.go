@@ -57,6 +57,7 @@ func PstLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 		Name:     "sid",
 		Value:    flash.Encode([]byte(us.UUID)),
 		HttpOnly: true,
+		Path:     "/",
 	})
 	http.Redirect(w, req, "/user/admin", http.StatusSeeOther)
 }
