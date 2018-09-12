@@ -57,7 +57,7 @@ func Google(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 func Callback(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	content, err := getGoogleInfo(req.FormValue("state"), req.FormValue("code"))
 	if err != nil {
-		http.Redirect(w, req, "/login", http.StatusInternalServerError)
+		http.Redirect(w, req, "/user/login", http.StatusInternalServerError)
 		return
 	}
 
@@ -65,7 +65,7 @@ func Callback(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	var uj models.GoogleUser
 	err = json.Unmarshal(content, &uj)
 	if err != nil {
-		http.Redirect(w, req, "/login", http.StatusInternalServerError)
+		http.Redirect(w, req, "/user/login", http.StatusInternalServerError)
 		return
 	}
 
@@ -73,21 +73,21 @@ func Callback(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	ui := convertGoogleUser(uj)
 	err = controllers.CreateUser(ui)
 	if !(err == nil || err.Error() == "User already exists") {
-		http.Redirect(w, req, "/login", http.StatusInternalServerError)
+		http.Redirect(w, req, "/user/login", http.StatusInternalServerError)
 		return
 	}
 
 	// Get user info
 	fu, err := controllers.GetUserByEmail(ui.Email)
 	if err != nil {
-		http.Redirect(w, req, "/login", http.StatusInternalServerError)
+		http.Redirect(w, req, "/user/login", http.StatusInternalServerError)
 		return
 	}
 
 	// Create session
 	us, err := controllers.CreateSession(fu)
 	if err != nil {
-		http.Redirect(w, req, "/login", http.StatusInternalServerError)
+		http.Redirect(w, req, "/user/login", http.StatusInternalServerError)
 		return
 	}
 
@@ -97,7 +97,7 @@ func Callback(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 		HttpOnly: true,
 		Path:     "/",
 	})
-	http.Redirect(w, req, "/admin", http.StatusSeeOther)
+	http.Redirect(w, req, "/user/admin", http.StatusSeeOther)
 }
 
 func getGoogleInfo(state string, code string) ([]byte, error) {

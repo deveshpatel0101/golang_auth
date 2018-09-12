@@ -22,7 +22,7 @@ func GtLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	}
 	_, err := Authenticate(req)
 	if err == nil {
-		http.Redirect(w, req, "/admin", http.StatusSeeOther)
+		http.Redirect(w, req, "/user/admin", http.StatusSeeOther)
 		return
 	}
 	tpl.ExecuteTemplate(w, "login.html", nil)
@@ -58,7 +58,7 @@ func PstLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 		Value:    flash.Encode([]byte(us.UUID)),
 		HttpOnly: true,
 	})
-	http.Redirect(w, req, "/admin", http.StatusSeeOther)
+	http.Redirect(w, req, "/user/admin", http.StatusSeeOther)
 }
 
 func checkLogin(req *http.Request) string {

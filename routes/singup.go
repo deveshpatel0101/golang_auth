@@ -14,7 +14,7 @@ import (
 func GtSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	_, err := Authenticate(req)
 	if err == nil {
-		http.Redirect(w, req, "/admin", http.StatusSeeOther)
+		http.Redirect(w, req, "/user/admin", http.StatusSeeOther)
 		return
 	}
 	tpl.ExecuteTemplate(w, "signup.html", nil)
@@ -44,7 +44,7 @@ func PstSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 		return
 	}
 	flash.SetFlash(w, "success", []byte("User created you can now login."))
-	http.Redirect(w, req, "/login", http.StatusSeeOther)
+	http.Redirect(w, req, "/user/login", http.StatusSeeOther)
 }
 
 func checkSignup(req *http.Request) string {
