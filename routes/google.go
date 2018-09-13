@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"github.com/golang_workspace/authentication/controllers"
 	"github.com/golang_workspace/authentication/flash"
@@ -27,7 +28,9 @@ var configuration struct {
 func init() {
 	err := gonfig.GetConf("./config.json", &configuration)
 	if err != nil {
-		panic("Error while reading configuration file.")
+		fmt.Println("Error while reading configuration file.")
+		configuration.ClientID = os.Getenv("CLIENT_ID")
+		configuration.ClientSecret = os.Getenv("CLIENT_SECRET")
 	}
 	googleOauthConfig = &oauth2.Config{
 		RedirectURL:  "http://localhost:8000/google/callback",

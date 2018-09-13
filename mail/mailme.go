@@ -3,6 +3,7 @@ package mailme
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/tkanos/gonfig"
@@ -17,7 +18,8 @@ var config struct {
 func init() {
 	err := gonfig.GetConf("./config.json", &config)
 	if err != nil {
-		panic("Error while reading configuration file.")
+		fmt.Println("Error while reading configuration file.")
+		config.SendGridAPIKey = os.Getenv("SENDGRID_API_KEY")
 	}
 }
 
