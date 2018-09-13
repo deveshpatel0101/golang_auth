@@ -72,7 +72,7 @@ func Callback(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	// Convert google user to user db
 	ui := convertGoogleUser(uj)
 	err = controllers.CreateUser(ui)
-	if !(err == nil || err.Error() == "User already exists") {
+	if !(err == nil || err.Error() == "user already exists") {
 		http.Redirect(w, req, "/user/login", http.StatusInternalServerError)
 		return
 	}
