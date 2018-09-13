@@ -1,7 +1,9 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/asaskevich/govalidator"
@@ -14,6 +16,7 @@ import (
 
 // GtForgot for GET on /forgot
 func GtForgot(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+	fmt.Println(strings.Split(config.RedirectURI, "/google/callback")[0])
 	_, err := Authenticate(req)
 	if err != nil {
 		tpl.ExecuteTemplate(w, "forgot.html", nil)
@@ -49,9 +52,7 @@ func PstForgot(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	htmlContent := "Your password reset link is: <a href=\"http://localhost:8000/user/reset?id=" + ur.ID.Hex() + "\">http://localhost:8000/user/reset?id=" + ur.ID.Hex() + "</a><br><strong>Note: </strong>Link will be valid for only 3 hours"
-
-	plainContent := "Your password reset link is: " + ur.ID.Hex() + ". Note: This link will be valid for only 3 hours."
+	htmlContent, plainContent := getEmailContent(ur.ID.Hex(), strings.Split(config.RedirectURI, "/google/callback")[0])
 
 	err = mailme.SendMail(ui.Fname, ui.Email, "Reset Password", plainContent, htmlContent)
 	if err != nil {
@@ -63,4 +64,10 @@ func PstForgot(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	alerts.SuccessMessage = "If your mail exists then we have sent you a password reset link. Please check your mail."
 	tpl.ExecuteTemplate(w, "forgot.html", alerts)
 	return
+}
+
+func getEmailContent(id, url string) (htmlContent, plainContent string) {
+	html := "Your password reset link is: <a href=\"" + url + "/user/reset?id=" + id + "\">" + url + "/user/reset?id=" + id + "</a><br><strong>Note: </strong>Link will be valid for only 3 hours"
+	plain := "Your password reset link is: " + id + ". Note: This link will be valid for only 3 hours."
+	return html, plain
 }
