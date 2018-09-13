@@ -20,22 +20,24 @@ import (
 
 var googleOauthConfig *oauth2.Config
 var oauthStateString string
-var configuration struct {
+var config struct {
 	ClientID     string
 	ClientSecret string
+	RedirectURI  string
 }
 
 func init() {
-	err := gonfig.GetConf("./config.json", &configuration)
+	err := gonfig.GetConf("./config.json", &config)
 	if err != nil {
 		fmt.Println("Error while reading configuration file.")
-		configuration.ClientID = os.Getenv("CLIENT_ID")
-		configuration.ClientSecret = os.Getenv("CLIENT_SECRET")
+		config.ClientID = os.Getenv("CLIENT_ID")
+		config.ClientSecret = os.Getenv("CLIENT_SECRET")
+		config.RedirectURI = os.Getenv("REDIRECT_URI")
 	}
 	googleOauthConfig = &oauth2.Config{
-		RedirectURL:  "http://localhost:8000/google/callback",
-		ClientID:     configuration.ClientID,
-		ClientSecret: configuration.ClientSecret,
+		RedirectURL:  config.RedirectURI,
+		ClientID:     config.ClientID,
+		ClientSecret: config.ClientSecret,
 		Scopes:       []string{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"},
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  "https://accounts.google.com/o/oauth2/auth",

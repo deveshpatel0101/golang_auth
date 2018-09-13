@@ -3,29 +3,56 @@ package controllers
 import (
 	"errors"
 	"fmt"
+	"os"
 
 	"gopkg.in/mgo.v2/bson"
 
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/golang_workspace/authentication/models"
+	"github.com/tkanos/gonfig"
 	"gopkg.in/mgo.v2"
 )
 
 var dbUser, dbSession, dbReset *mgo.Collection
 var s *mgo.Session
+var config struct {
+	mongoURI string
+}
+var connect bool
+
+func init() {
+	err := gonfig.GetConf("./config.json", &config)
+	if err != nil {
+		connect = false
+		fmt.Println("Error while reading configuration file.")
+		config.mongoURI = os.Getenv("MONGODB_URI")
+		return
+	}
+	connect = true
+}
 
 // Connect establishes connection to db
 func Connect() {
-	s, err := mgo.Dial("mongodb://localhost")
+	s, err := mgo.Dial(config.mongoURI)
 	if err != nil {
 		fmt.Println("Error connecting to database")
 		panic(err)
 	}
 	fmt.Println("Connected")
-	dbUser = s.DB("go").C("first")
-	dbSession = s.DB("go").C("session")
-	dbReset = s.DB("go").C("reset")
+
+	// Connect to remote db if connect is false
+	if !connect {
+		fmt.Println("Connected to remote DB...")
+		dbUser = s.DB("dpauth").C("first")
+		dbSession = s.DB("dpauth").C("session")
+		dbReset = s.DB("dpauth").C("reset")
+	} else {
+		fmt.Println("Connected to local DB...")
+		dbUser = s.DB("go").C("first")
+		dbSession = s.DB("go").C("session")
+		dbReset = s.DB("go").C("reset")
+	}
 }
 
 // CreateUser is a function
