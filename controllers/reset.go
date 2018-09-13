@@ -70,7 +70,7 @@ func UpdatePassword(email, p string) error {
 	if ui.Password != "" {
 		err = bcrypt.CompareHashAndPassword([]byte(ui.Password), []byte(p))
 		if err == nil {
-			return errors.New("You new password should not match old password")
+			return errors.New("match")
 		}
 	}
 

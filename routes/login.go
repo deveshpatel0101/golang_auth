@@ -43,7 +43,11 @@ func PstLogin(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	}
 	user, err := controllers.ValidateUser(uc)
 	if err != nil {
-		alerts.ErrorMessage = "Email or Password is wrong."
+		if err.Error() == "email or password is wrong" {
+			alerts.ErrorMessage = "Email or Password is wrong."
+		} else {
+			alerts.ErrorMessage = err.Error()
+		}
 		tpl.ExecuteTemplate(w, "login.html", alerts)
 		return
 	}

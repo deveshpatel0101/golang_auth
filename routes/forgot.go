@@ -14,7 +14,12 @@ import (
 
 // GtForgot for GET on /forgot
 func GtForgot(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
-	tpl.ExecuteTemplate(w, "forgot.html", nil)
+	_, err := Authenticate(req)
+	if err != nil {
+		tpl.ExecuteTemplate(w, "forgot.html", nil)
+		return
+	}
+	http.Redirect(w, req, "/user/admin", http.StatusSeeOther)
 }
 
 // PstForgot for POST on /forgot
@@ -44,7 +49,7 @@ func PstForgot(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	htmlContent := "You password reset link is: <a href=\"http://localhost:8000/user/reset?id=" + ur.ID.Hex() + "\">http://localhost:8000/user/reset?id=" + ur.ID.Hex() + "</a><br><strong>Note: </strong>Link will be valid for only 3 hours"
+	htmlContent := "Your password reset link is: <a href=\"http://localhost:8000/user/reset?id=" + ur.ID.Hex() + "\">http://localhost:8000/user/reset?id=" + ur.ID.Hex() + "</a><br><strong>Note: </strong>Link will be valid for only 3 hours"
 
 	plainContent := "Your password reset link is: " + ur.ID.Hex() + ". Note: This link will be valid for only 3 hours."
 

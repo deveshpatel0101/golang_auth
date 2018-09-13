@@ -15,6 +15,8 @@ import (
 func GtReset(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	id := req.FormValue("id")
 	alerts := models.UserAlerts{}
+
+	// To check if correct token exist
 	_, err := controllers.GetReset(id)
 	if err != nil {
 		alerts.ErrorMessage = "Either token was already used or the reset password link is broken."
@@ -47,6 +49,8 @@ func PstReset(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	if err != nil {
 		if err.Error() == "not found" {
 			alerts.ErrorMessage = "User does not exists."
+		} else if err.Error() == "match" {
+			alerts.ErrorMessage = "Your new password should not match old password."
 		} else {
 			alerts.ErrorMessage = err.Error()
 		}
@@ -61,7 +65,7 @@ func checkPassword(req *http.Request) string {
 	if req.FormValue("password01") == "" || req.FormValue("password02") == "" {
 		return "Both passwords are required."
 	} else if len(req.FormValue("password01")) < 6 {
-		return "Password should be atleast 6 characters long."
+		return "Password should be at least 6 characters long."
 	} else if !(req.FormValue("password01") == req.FormValue("password02")) {
 		return "Both passwords should match."
 	}

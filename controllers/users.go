@@ -33,7 +33,7 @@ func CreateUser(u models.UserDB) error {
 	var userDb models.UserDB
 	err := dbUser.Find(struct{ Email string }{Email: u.Email}).One(&userDb)
 	if err == nil {
-		return errors.New("User already exists")
+		return errors.New("user already exists")
 	}
 	if u.UserType == "local" {
 		hshPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)

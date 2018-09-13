@@ -39,7 +39,11 @@ func PstSignup(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	}
 	err := controllers.CreateUser(userSingup)
 	if err != nil {
-		alerts.ErrorMessage = err.Error()
+		if err.Error() == "user already exists" {
+			alerts.ErrorMessage = "User already exists."
+		} else {
+			alerts.ErrorMessage = err.Error()
+		}
 		tpl.ExecuteTemplate(w, "signup.html", alerts)
 		return
 	}
