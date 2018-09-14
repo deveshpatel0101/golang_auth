@@ -63,11 +63,11 @@ func PstReset(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 
 func checkPassword(req *http.Request) string {
 	if req.FormValue("password01") == "" || req.FormValue("password02") == "" {
-		return "Both passwords are required."
+		return "All fields are required."
 	} else if len(req.FormValue("password01")) < 6 {
-		return "Password should be at least 6 characters long."
+		return "New password should be at least 6 characters long."
 	} else if !(req.FormValue("password01") == req.FormValue("password02")) {
-		return "Both passwords should match."
+		return "Confirm password does not match new password."
 	}
 	return ""
 }

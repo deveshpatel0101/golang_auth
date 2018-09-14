@@ -12,35 +12,40 @@
     <ul>
         <li><a href="/">Index</a></li>
         <li><a href="/user/admin">Admin</a></li>
+        <li><a href="/user/settings">Settings</a></li>
         <li><a href="/user/logout">Logout</a></li>
     </ul>
-    {{if .Fname}}
+    {{if .User}}
     <ul>
-        {{if .ID}}
-        <li><strong>ID: </strong>{{.ID}}</li>
+        {{if .User.ID}}
+        <li><strong>ID: </strong>{{.User.ID}}</li>
         {{end}}
-        {{if .Fname}}
-        <li><strong>First Name: </strong>{{.Fname}}</li>
+        {{if .User.Fname}}
+        <li><strong>First Name: </strong>{{.User.Fname}}</li>
         {{end}}
-        {{if .Lname}}
-        <li><strong>Last Name: </strong>{{.Lname}}</li>
+        {{if .User.Lname}}
+        <li><strong>Last Name: </strong>{{.User.Lname}}</li>
         {{end}}
-        {{if .Email}}
-        <li><strong>Email: </strong>{{.Email}}</li>
+        {{if .User.Email}}
+        <li><strong>Email: </strong>{{.User.Email}}</li>
         {{end}}
-        {{if .Password}}
-        <li><strong>Password: </strong>{{.Password}}</li>
+        {{if .User.Password}}
+        <li><strong>Password: </strong>{{.User.Password}}</li>
         {{end}}
-        {{if .Picture}}
-        <li><strong>Picture: </strong>{{.Picture}}</li>
+        {{if .User.Picture}}
+        <li><strong>Picture: </strong>{{.User.Picture}}</li>
         {{end}}
-        {{if .UserType}}
-        <li><strong>User Type: </strong>{{.UserType}}</li>
+        {{if .User.UserType}}
+        <li><strong>User Type: </strong>{{.User.UserType}}</li>
         {{end}}
-        {{if .GoogleID}}
-        <li><strong>Google ID: </strong>{{.GoogleID}}</li>
+        {{if .User.GoogleID}}
+        <li><strong>Google ID: </strong>{{.User.GoogleID}}</li>
         {{end}}
     </ul>
+    {{end}}
+
+    {{if .SuccessMessage}}
+    <strong>Success: </strong>{{.SuccessMessage}}
     {{end}}
 
 </body>

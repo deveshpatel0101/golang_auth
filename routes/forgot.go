@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -16,7 +15,6 @@ import (
 
 // GtForgot for GET on /forgot
 func GtForgot(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
-	fmt.Println(strings.Split(config.RedirectURI, "/google/callback")[0])
 	_, err := Authenticate(req)
 	if err != nil {
 		tpl.ExecuteTemplate(w, "forgot.html", nil)

@@ -35,6 +35,8 @@ func main() {
 	mux.POST("/user/forgot", routes.PstForgot)
 	mux.GET("/user/reset", routes.GtReset)
 	mux.POST("/user/reset", routes.PstReset)
+	mux.GET("/user/settings", routes.GtChangePwd)
+	mux.POST("/user/settings", routes.PstChangePwd)
 	fmt.Println("Server started on port", port)
 	http.ListenAndServe(":"+port, mux)
 }

@@ -5,17 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Reset Password</title>
+    <title>Change Password</title>
 </head>
 
 <body>
     <ul>
         <li><a href="/">Index</a></li>
-        <li><a href="/user/login">Login</a></li>
-        <li><a href="/user/signup">Signup</a></li>
+        <li><a href="/user/admin">Admin</a></li>
+        <li><a href="/user/settings">Settings</a></li>
+        <li><a href="/user/logout">Logout</a></li>
     </ul>
     
     <form method="POST">
+        <input type="password" name="currPwd" placeholder="Current Password">
         <input type="password" name="password01" placeholder="New Password">
         <input type="password" name="password02" placeholder="Confirm Password">
         <button type="submit">Submit</button>

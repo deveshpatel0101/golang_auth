@@ -22,6 +22,7 @@ type UserDB struct {
 type UserAlerts struct {
 	SuccessMessage string
 	ErrorMessage   string
+	User           UserDB
 	LoggedIn       bool
 }
 

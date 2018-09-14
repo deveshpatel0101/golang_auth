@@ -54,14 +54,8 @@ func GetReset(id string) (models.UserReset, error) {
 func UpdatePassword(email, p string) error {
 	ui := models.UserDB{}
 
-	// Generate hahs password
-	hsh, err := bcrypt.GenerateFromPassword([]byte(p), bcrypt.DefaultCost)
-	if err != nil {
-		return err
-	}
-
 	// Find user info from user db
-	err = dbUser.Find(struct{ Email string }{Email: email}).One(&ui)
+	err := dbUser.Find(struct{ Email string }{Email: email}).One(&ui)
 	if err != nil {
 		return err
 	}
@@ -72,6 +66,12 @@ func UpdatePassword(email, p string) error {
 		if err == nil {
 			return errors.New("match")
 		}
+	}
+
+	// Generate hahs password
+	hsh, err := bcrypt.GenerateFromPassword([]byte(p), bcrypt.DefaultCost)
+	if err != nil {
+		return err
 	}
 
 	// Remove reset info from reset db
